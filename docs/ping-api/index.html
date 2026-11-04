@@ -1,0 +1,90 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Ping API — Nightjar</title><meta name="description" content="Nightjar ping endpoint reference. Success, start, fail, exit-code and log signals, request bodies, responses and rate limits."><link rel="canonical" href="https://lucas3506.github.io/nightjar/docs/ping-api/"><link rel="icon" href="/nightjar/favicon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="/nightjar/apple-touch-icon.png"><link rel="sitemap" href="/nightjar/sitemap-index.xml"><meta name="theme-color" content="#141512"><meta property="og:type" content="website"><meta property="og:site_name" content="Nightjar"><meta property="og:title" content="Ping API — Nightjar"><meta property="og:description" content="Nightjar ping endpoint reference. Success, start, fail, exit-code and log signals, request bodies, responses and rate limits."><meta property="og:url" content="https://lucas3506.github.io/nightjar/docs/ping-api/"><meta property="og:image" content="https://lucas3506.github.io/nightjar/og.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Ping API — Nightjar"><meta name="twitter:description" content="Nightjar ping endpoint reference. Success, start, fail, exit-code and log signals, request bodies, responses and rate limits."><meta name="twitter:image" content="https://lucas3506.github.io/nightjar/og.png"><link rel="stylesheet" href="/nightjar/_assets/alerts.B-GwoTc1.css">
+<link rel="stylesheet" href="/nightjar/_assets/alerts.CbEWqNXf.css"></head> <body> <a class="skip" href="#main">Skip to content</a> <header class="nav"> <div class="wrap nav-inner"> <a href="/nightjar/" class="nav-logo" aria-label="Nightjar home"><span class="logo"> <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12.00 5.00L12.00 1.40 M16.00 5.07L17.30 2.82 M19.00 12.00L22.60 12.00 M18.93 16.00L21.18 17.30 M16.00 18.93L17.30 21.18 M12.00 19.00L12.00 22.60 M8.00 18.93L6.70 21.18 M5.07 16.00L2.82 17.30 M5.00 12.00L1.40 12.00 M5.07 8.00L2.82 6.70 M8.00 5.07L6.70 2.82" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><circle cx="19.97" cy="7.40" r="1.9" fill="#F2A93B"/></svg> <span class="logo-word">nightjar</span> </span></a> <nav class="nav-links" aria-label="Main"> <a href="/nightjar/features/">Product</a><a href="/nightjar/docs/" aria-current="page">Docs</a><a href="/nightjar/pricing/">Pricing</a><a href="/nightjar/faq/">FAQ</a> </nav> <div class="nav-cta"> <a class="nav-signin" href="/nightjar/app/login">Sign in</a> <a class="btn btn-ink btn-sm" href="/nightjar/app/signup">Start free</a> </div> <details class="nav-mobile"> <summary aria-label="Menu"><span></span><span></span></summary> <div class="nav-sheet"> <a href="/nightjar/features/">Product</a><a href="/nightjar/docs/">Docs</a><a href="/nightjar/pricing/">Pricing</a><a href="/nightjar/faq/">FAQ</a> <a href="/nightjar/app/login">Sign in</a> <a class="btn btn-ink" href="/nightjar/app/signup">Start free</a> </div> </details> </div> </header> <main id="main"> <div class="wrap docs"> <nav class="docs-nav" aria-label="Documentation">  <h5>Start</h5> <a href="/nightjar/docs/">Quick start</a><a href="/nightjar/docs/ping-api/" aria-current="page">Ping API</a><a href="/nightjar/docs/schedules/">Schedules &amp; grace</a><a href="/nightjar/docs/alerts/">Alert channels</a><a href="/nightjar/docs/badges/">Status badges</a> <h5>Guides</h5> <a href="/nightjar/docs/crontab/">crontab &amp; shell</a><a href="/nightjar/docs/github-actions/">GitHub Actions</a><a href="/nightjar/docs/kubernetes/">Kubernetes CronJob</a><a href="/nightjar/docs/pg-cron/">Supabase pg_cron</a><a href="/nightjar/docs/systemd/">systemd timers</a><a href="/nightjar/docs/languages/">Node, Python, PHP, Go</a> </nav> <article class="docs-body prose" style="max-width:760px"> <span class="eyebrow">Reference</span> <h1 class="display" style="font-size:clamp(36px,4.4vw,52px);margin-top:16px">Ping API</h1> <p>Every check has one URL. Append a suffix to send a different signal. All endpoints accept <code>GET</code>, <code>POST</code>, <code>PUT</code> and <code>HEAD</code>, need no authentication beyond the token in the URL, and return <code>200 OK</code> as plain text.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Request</th><th>Meaning</th></tr></thead><tbody><tr><td><code>/ping/&#x3C;token></code></td><td>Success. The check is up, and the next expected time is recalculated.</td></tr><tr><td><code>/ping/&#x3C;token>/start</code></td><td>The job has started. Used to measure duration and detect stuck runs.</td></tr><tr><td><code>/ping/&#x3C;token>/fail</code></td><td>The job failed. The check goes down and an alert is sent.</td></tr><tr><td><code>/ping/&#x3C;token>/&#x3C;0-255></code></td><td>Exit status. <code>0</code> is success; anything else is a failure with that exit code.</td></tr><tr><td><code>/ping/&#x3C;token>/log</code></td><td>Attach a log entry without changing the check’s state.</td></tr></tbody></table>
+<p>Base URL: <code>https://wzbetaadovfmwgqfspcw.supabase.co/functions/v1/ping</code></p>
+<h2 id="sending-output">Sending output</h2>
+<p>Send the job’s output as the request body of any <code>POST</code> or <code>PUT</code>. Nightjar keeps the <strong>end</strong> of the body (2 KB on Hobby, 32 KB on Pro, 128 KB on Scale), shows it in the run history, and includes it in failure alerts.</p>
+<pre class="astro-code vitesse-dark" style="background-color:#121212;color:#dbd7caee; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#80A665">tail</span><span style="color:#C99076"> -n</span><span style="color:#4C9A91"> 50</span><span style="color:#C98A7D"> /var/log/backup.log</span><span style="color:#CB7676"> |</span><span style="color:#80A665"> curl</span><span style="color:#C99076"> -fsS</span><span style="color:#C99076"> -m</span><span style="color:#4C9A91"> 10</span><span style="color:#C99076"> --data-binary</span><span style="color:#C98A7D"> @-</span><span style="color:#C98A7D"> https://wzbetaadovfmwgqfspcw.supabase.co/functions/v1/ping/YOUR_TOKEN/1</span></span>
+<span class="line"></span></code></pre>
+<h2 id="measuring-duration">Measuring duration</h2>
+<p>Ping <code>/start</code> before the work and a success or failure ping after it. Nightjar records the time in between as the run’s duration.</p>
+<pre class="astro-code vitesse-dark" style="background-color:#121212;color:#dbd7caee; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#80A665">curl</span><span style="color:#C99076"> -fsS</span><span style="color:#C99076"> -m</span><span style="color:#4C9A91"> 10</span><span style="color:#C98A7D"> https://wzbetaadovfmwgqfspcw.supabase.co/functions/v1/ping/YOUR_TOKEN/start</span></span>
+<span class="line"><span style="color:#80A665">./long-job.sh</span></span>
+<span class="line"><span style="color:#80A665">curl</span><span style="color:#C99076"> -fsS</span><span style="color:#C99076"> -m</span><span style="color:#4C9A91"> 10</span><span style="color:#C98A7D"> https://wzbetaadovfmwgqfspcw.supabase.co/functions/v1/ping/YOUR_TOKEN/</span><span style="color:#C99076">$?</span></span>
+<span class="line"></span></code></pre>
+<p>On Pro and Scale, set a <strong>maximum duration</strong> on the check:</p>
+<ul>
+<li>If a run finishes but took longer than the maximum, you get a <strong>slow run</strong> alert.</li>
+<li>If a run started and hasn’t finished within the maximum, you get a <strong>stuck</strong> alert while it is still running.</li>
+</ul>
+<p>A <code>/start</code> older than 24 hours isn’t paired with a later success, so a forgotten start signal can’t produce nonsense durations.</p>
+<h2 id="responses">Responses</h2>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Status</th><th>Body</th><th>Meaning</th></tr></thead><tbody><tr><td>200</td><td><code>OK</code></td><td>Ping recorded.</td></tr><tr><td>400</td><td>usage text</td><td>Malformed token or unknown suffix.</td></tr><tr><td>404</td><td><code>Not found</code></td><td>No check uses this token (deleted, or the URL was rotated).</td></tr><tr><td>429</td><td><code>Rate limited</code></td><td>More than 120 pings per minute for one check.</td></tr><tr><td>503</td><td><code>Temporary error</code></td><td>Retry. <code>curl --retry 5</code> handles this for you.</td></tr></tbody></table>
+<h2 id="paused-checks">Paused checks</h2>
+<p>Pings to a paused check are recorded in its history, but they don’t change its state or send alerts. Resume the check from the dashboard.</p>
+<h2 id="rotating-a-url">Rotating a URL</h2>
+<p>If a ping URL leaks, open the check, choose <strong>Rotate URL</strong>, and update your job. The old URL stops working immediately.</p> <hr class="rule" style="margin:48px 0 20px"> <p class="muted" style="font-size:14px">Stuck? <a href="/nightjar/contact/">Ask us</a>, or <a href="/nightjar/app/signup">create a free account</a> and try it on a real job.</p> </article> </div> </main> <footer class="footer"> <div class="wrap footer-grid"> <div class="footer-brand"> <span class="logo"> <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12.00 5.00L12.00 1.40 M16.00 5.07L17.30 2.82 M19.00 12.00L22.60 12.00 M18.93 16.00L21.18 17.30 M16.00 18.93L17.30 21.18 M12.00 19.00L12.00 22.60 M8.00 18.93L6.70 21.18 M5.07 16.00L2.82 17.30 M5.00 12.00L1.40 12.00 M5.07 8.00L2.82 6.70 M8.00 5.07L6.70 2.82" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><circle cx="19.97" cy="7.40" r="1.9" fill="#F2A93B"/></svg> <span class="logo-word">nightjar</span> </span> <p>Heartbeat monitoring for the jobs that run while you sleep.</p> </div> <div> <h4>Product</h4> <a href="/nightjar/features/">Features</a> <a href="/nightjar/pricing/">Pricing</a> <a href="/nightjar/app/signup">Create account</a> <a href="/nightjar/app/login">Sign in</a> </div> <div> <h4>Guides</h4> <a href="/nightjar/docs/">Quick start</a> <a href="/nightjar/docs/crontab/">crontab</a> <a href="/nightjar/docs/github-actions/">GitHub Actions</a> <a href="/nightjar/docs/kubernetes/">Kubernetes</a> <a href="/nightjar/docs/pg-cron/">Supabase pg_cron</a> </div> <div> <h4>Company</h4> <a href="/nightjar/faq/">FAQ</a> <a href="/nightjar/contact/">Contact</a> <a href="/nightjar/privacy/">Privacy</a> <a href="/nightjar/terms/">Terms</a> </div> </div> <div class="wrap footer-base"> <span>&copy; 2026 Nightjar</span> <span class="mono">ping · wait · alert</span> </div> </footer> </body></html>

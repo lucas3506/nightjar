@@ -1,0 +1,60 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Alert channels — Nightjar</title><meta name="description" content="Connect Nightjar alerts to Slack, Discord, Telegram, Google Chat, ntfy push notifications or any webhook."><link rel="canonical" href="https://lucas3506.github.io/nightjar/docs/alerts/"><link rel="icon" href="/nightjar/favicon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="/nightjar/apple-touch-icon.png"><link rel="sitemap" href="/nightjar/sitemap-index.xml"><meta name="theme-color" content="#141512"><meta property="og:type" content="website"><meta property="og:site_name" content="Nightjar"><meta property="og:title" content="Alert channels — Nightjar"><meta property="og:description" content="Connect Nightjar alerts to Slack, Discord, Telegram, Google Chat, ntfy push notifications or any webhook."><meta property="og:url" content="https://lucas3506.github.io/nightjar/docs/alerts/"><meta property="og:image" content="https://lucas3506.github.io/nightjar/og.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Alert channels — Nightjar"><meta name="twitter:description" content="Connect Nightjar alerts to Slack, Discord, Telegram, Google Chat, ntfy push notifications or any webhook."><meta name="twitter:image" content="https://lucas3506.github.io/nightjar/og.png"><link rel="stylesheet" href="/nightjar/_assets/alerts.B-GwoTc1.css">
+<link rel="stylesheet" href="/nightjar/_assets/alerts.CbEWqNXf.css"></head> <body> <a class="skip" href="#main">Skip to content</a> <header class="nav"> <div class="wrap nav-inner"> <a href="/nightjar/" class="nav-logo" aria-label="Nightjar home"><span class="logo"> <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12.00 5.00L12.00 1.40 M16.00 5.07L17.30 2.82 M19.00 12.00L22.60 12.00 M18.93 16.00L21.18 17.30 M16.00 18.93L17.30 21.18 M12.00 19.00L12.00 22.60 M8.00 18.93L6.70 21.18 M5.07 16.00L2.82 17.30 M5.00 12.00L1.40 12.00 M5.07 8.00L2.82 6.70 M8.00 5.07L6.70 2.82" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><circle cx="19.97" cy="7.40" r="1.9" fill="#F2A93B"/></svg> <span class="logo-word">nightjar</span> </span></a> <nav class="nav-links" aria-label="Main"> <a href="/nightjar/features/">Product</a><a href="/nightjar/docs/" aria-current="page">Docs</a><a href="/nightjar/pricing/">Pricing</a><a href="/nightjar/faq/">FAQ</a> </nav> <div class="nav-cta"> <a class="nav-signin" href="/nightjar/app/login">Sign in</a> <a class="btn btn-ink btn-sm" href="/nightjar/app/signup">Start free</a> </div> <details class="nav-mobile"> <summary aria-label="Menu"><span></span><span></span></summary> <div class="nav-sheet"> <a href="/nightjar/features/">Product</a><a href="/nightjar/docs/">Docs</a><a href="/nightjar/pricing/">Pricing</a><a href="/nightjar/faq/">FAQ</a> <a href="/nightjar/app/login">Sign in</a> <a class="btn btn-ink" href="/nightjar/app/signup">Start free</a> </div> </details> </div> </header> <main id="main"> <div class="wrap docs"> <nav class="docs-nav" aria-label="Documentation">  <h5>Start</h5> <a href="/nightjar/docs/">Quick start</a><a href="/nightjar/docs/ping-api/">Ping API</a><a href="/nightjar/docs/schedules/">Schedules &amp; grace</a><a href="/nightjar/docs/alerts/" aria-current="page">Alert channels</a><a href="/nightjar/docs/badges/">Status badges</a> <h5>Guides</h5> <a href="/nightjar/docs/crontab/">crontab &amp; shell</a><a href="/nightjar/docs/github-actions/">GitHub Actions</a><a href="/nightjar/docs/kubernetes/">Kubernetes CronJob</a><a href="/nightjar/docs/pg-cron/">Supabase pg_cron</a><a href="/nightjar/docs/systemd/">systemd timers</a><a href="/nightjar/docs/languages/">Node, Python, PHP, Go</a> </nav> <article class="docs-body prose" style="max-width:760px"> <span class="eyebrow">Concepts</span> <h1 class="display" style="font-size:clamp(36px,4.4vw,52px);margin-top:16px">Alert channels</h1> <p>Add channels on the <strong>Alert channels</strong> page. Every enabled channel receives every alert for your checks, so you can send everything to Slack and also get phone notifications through ntfy. Use <strong>Send test</strong> to confirm delivery. The delivery log shows the HTTP status each service returned.</p>
+<h2 id="slack">Slack</h2>
+<p>In Slack, create an app with <strong>Incoming Webhooks</strong> enabled (or use the legacy Incoming WebHooks integration), pick a channel, and paste the <code>https://hooks.slack.com/services/…</code> URL.</p>
+<h2 id="discord">Discord</h2>
+<p>Open <strong>Server settings → Integrations → Webhooks → New webhook</strong>, choose a channel and copy the webhook URL.</p>
+<h2 id="telegram">Telegram</h2>
+<ol>
+<li>Talk to <strong>@BotFather</strong>, send <code>/newbot</code>, and copy the bot token.</li>
+<li>Add the bot to your group or channel, send it a message, and find the chat ID. For a channel, use <code>@channelname</code>.</li>
+<li>Paste the token and chat ID into Nightjar.</li>
+</ol>
+<h2 id="ntfy-phone-push">ntfy (phone push)</h2>
+<p>Install the ntfy app on iOS or Android and subscribe to a topic name that is hard to guess (for example <code>nightjar-7f2kq9</code>). Enter the same topic in Nightjar. Self-hosted ntfy servers and access tokens are supported.</p>
+<h2 id="google-chat">Google Chat</h2>
+<p>In a space, open <strong>Apps &#x26; integrations → Webhooks</strong>, add one, and paste the <code>https://chat.googleapis.com/…</code> URL.</p>
+<h2 id="webhooks">Webhooks</h2>
+<p>Nightjar POSTs JSON to any public HTTPS URL:</p>
+<pre class="astro-code vitesse-dark" style="background-color:#121212;color:#dbd7caee; overflow-x: auto;" tabindex="0" data-language="json"><code><span class="line"><span style="color:#666666">{</span></span>
+<span class="line"><span style="color:#B8A96577">  "</span><span style="color:#B8A965">event</span><span style="color:#B8A96577">"</span><span style="color:#666666">:</span><span style="color:#C98A7D77"> "</span><span style="color:#C98A7D">down</span><span style="color:#C98A7D77">"</span><span style="color:#666666">,</span></span>
+<span class="line"><span style="color:#B8A96577">  "</span><span style="color:#B8A965">summary</span><span style="color:#B8A96577">"</span><span style="color:#666666">:</span><span style="color:#C98A7D77"> "</span><span style="color:#C98A7D">DOWN · nightly-backup</span><span style="color:#C98A7D77">"</span><span style="color:#666666">,</span></span>
+<span class="line"><span style="color:#B8A96577">  "</span><span style="color:#B8A965">message</span><span style="color:#B8A96577">"</span><span style="color:#666666">:</span><span style="color:#C98A7D77"> "</span><span style="color:#C98A7D">Expected a ping by Nov 04, 02:00 Europe/Berlin (+10m grace). Last ping: Nov 03, 02:04 Europe/Berlin.</span><span style="color:#C98A7D77">"</span><span style="color:#666666">,</span></span>
+<span class="line"><span style="color:#B8A96577">  "</span><span style="color:#B8A965">log</span><span style="color:#B8A96577">"</span><span style="color:#666666">:</span><span style="color:#4D9375"> null</span><span style="color:#666666">,</span></span>
+<span class="line"><span style="color:#B8A96577">  "</span><span style="color:#B8A965">url</span><span style="color:#B8A96577">"</span><span style="color:#666666">:</span><span style="color:#C98A7D77"> "</span><span style="color:#C98A7D">https://lucas3506.github.io/nightjar/app/checks/…</span><span style="color:#C98A7D77">"</span><span style="color:#666666">,</span></span>
+<span class="line"><span style="color:#B8A96577">  "</span><span style="color:#B8A965">monitor_id</span><span style="color:#B8A96577">"</span><span style="color:#666666">:</span><span style="color:#C98A7D77"> "</span><span style="color:#C98A7D">8b7c…</span><span style="color:#C98A7D77">"</span><span style="color:#666666">,</span></span>
+<span class="line"><span style="color:#B8A96577">  "</span><span style="color:#B8A965">sent_at</span><span style="color:#B8A96577">"</span><span style="color:#666666">:</span><span style="color:#C98A7D77"> "</span><span style="color:#C98A7D">2026-11-04T01:10:00Z</span><span style="color:#C98A7D77">"</span></span>
+<span class="line"><span style="color:#666666">}</span></span>
+<span class="line"></span></code></pre>
+<p><code>event</code> is one of <code>down</code>, <code>fail</code>, <code>up</code>, <code>slow</code>, <code>hung</code> or <code>test</code>. If you set a secret, it’s sent in the <code>X-Nightjar-Secret</code> header so your endpoint can reject other callers. Private and internal addresses are not allowed.</p>
+<h2 id="alert-types">Alert types</h2>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Event</th><th>When</th></tr></thead><tbody><tr><td><code>down</code></td><td>A ping is overdue past the grace period</td></tr><tr><td><code>fail</code></td><td>The job reported a failure (<code>/fail</code> or a non-zero exit code)</td></tr><tr><td><code>up</code></td><td>A failing or late check received a successful ping</td></tr><tr><td><code>slow</code></td><td>A run took longer than the check’s maximum duration (Pro)</td></tr><tr><td><code>hung</code></td><td>A run started and didn’t finish within the maximum duration (Pro)</td></tr></tbody></table> <hr class="rule" style="margin:48px 0 20px"> <p class="muted" style="font-size:14px">Stuck? <a href="/nightjar/contact/">Ask us</a>, or <a href="/nightjar/app/signup">create a free account</a> and try it on a real job.</p> </article> </div> </main> <footer class="footer"> <div class="wrap footer-grid"> <div class="footer-brand"> <span class="logo"> <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12.00 5.00L12.00 1.40 M16.00 5.07L17.30 2.82 M19.00 12.00L22.60 12.00 M18.93 16.00L21.18 17.30 M16.00 18.93L17.30 21.18 M12.00 19.00L12.00 22.60 M8.00 18.93L6.70 21.18 M5.07 16.00L2.82 17.30 M5.00 12.00L1.40 12.00 M5.07 8.00L2.82 6.70 M8.00 5.07L6.70 2.82" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><circle cx="19.97" cy="7.40" r="1.9" fill="#F2A93B"/></svg> <span class="logo-word">nightjar</span> </span> <p>Heartbeat monitoring for the jobs that run while you sleep.</p> </div> <div> <h4>Product</h4> <a href="/nightjar/features/">Features</a> <a href="/nightjar/pricing/">Pricing</a> <a href="/nightjar/app/signup">Create account</a> <a href="/nightjar/app/login">Sign in</a> </div> <div> <h4>Guides</h4> <a href="/nightjar/docs/">Quick start</a> <a href="/nightjar/docs/crontab/">crontab</a> <a href="/nightjar/docs/github-actions/">GitHub Actions</a> <a href="/nightjar/docs/kubernetes/">Kubernetes</a> <a href="/nightjar/docs/pg-cron/">Supabase pg_cron</a> </div> <div> <h4>Company</h4> <a href="/nightjar/faq/">FAQ</a> <a href="/nightjar/contact/">Contact</a> <a href="/nightjar/privacy/">Privacy</a> <a href="/nightjar/terms/">Terms</a> </div> </div> <div class="wrap footer-base"> <span>&copy; 2026 Nightjar</span> <span class="mono">ping · wait · alert</span> </div> </footer> </body></html>

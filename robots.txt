@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /nightjar/app/
+
+Sitemap: https://lucas3506.github.io/nightjar/sitemap-index.xml

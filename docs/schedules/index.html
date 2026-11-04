@@ -1,0 +1,69 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Schedules &amp; grace periods — Nightjar</title><meta name="description" content="How Nightjar decides a job is late. Period schedules, cron expressions with time zones, grace periods and check states."><link rel="canonical" href="https://lucas3506.github.io/nightjar/docs/schedules/"><link rel="icon" href="/nightjar/favicon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="/nightjar/apple-touch-icon.png"><link rel="sitemap" href="/nightjar/sitemap-index.xml"><meta name="theme-color" content="#141512"><meta property="og:type" content="website"><meta property="og:site_name" content="Nightjar"><meta property="og:title" content="Schedules &#38; grace periods — Nightjar"><meta property="og:description" content="How Nightjar decides a job is late. Period schedules, cron expressions with time zones, grace periods and check states."><meta property="og:url" content="https://lucas3506.github.io/nightjar/docs/schedules/"><meta property="og:image" content="https://lucas3506.github.io/nightjar/og.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Schedules &#38; grace periods — Nightjar"><meta name="twitter:description" content="How Nightjar decides a job is late. Period schedules, cron expressions with time zones, grace periods and check states."><meta name="twitter:image" content="https://lucas3506.github.io/nightjar/og.png"><link rel="stylesheet" href="/nightjar/_assets/alerts.B-GwoTc1.css">
+<link rel="stylesheet" href="/nightjar/_assets/alerts.CbEWqNXf.css"></head> <body> <a class="skip" href="#main">Skip to content</a> <header class="nav"> <div class="wrap nav-inner"> <a href="/nightjar/" class="nav-logo" aria-label="Nightjar home"><span class="logo"> <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12.00 5.00L12.00 1.40 M16.00 5.07L17.30 2.82 M19.00 12.00L22.60 12.00 M18.93 16.00L21.18 17.30 M16.00 18.93L17.30 21.18 M12.00 19.00L12.00 22.60 M8.00 18.93L6.70 21.18 M5.07 16.00L2.82 17.30 M5.00 12.00L1.40 12.00 M5.07 8.00L2.82 6.70 M8.00 5.07L6.70 2.82" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><circle cx="19.97" cy="7.40" r="1.9" fill="#F2A93B"/></svg> <span class="logo-word">nightjar</span> </span></a> <nav class="nav-links" aria-label="Main"> <a href="/nightjar/features/">Product</a><a href="/nightjar/docs/" aria-current="page">Docs</a><a href="/nightjar/pricing/">Pricing</a><a href="/nightjar/faq/">FAQ</a> </nav> <div class="nav-cta"> <a class="nav-signin" href="/nightjar/app/login">Sign in</a> <a class="btn btn-ink btn-sm" href="/nightjar/app/signup">Start free</a> </div> <details class="nav-mobile"> <summary aria-label="Menu"><span></span><span></span></summary> <div class="nav-sheet"> <a href="/nightjar/features/">Product</a><a href="/nightjar/docs/">Docs</a><a href="/nightjar/pricing/">Pricing</a><a href="/nightjar/faq/">FAQ</a> <a href="/nightjar/app/login">Sign in</a> <a class="btn btn-ink" href="/nightjar/app/signup">Start free</a> </div> </details> </div> </header> <main id="main"> <div class="wrap docs"> <nav class="docs-nav" aria-label="Documentation">  <h5>Start</h5> <a href="/nightjar/docs/">Quick start</a><a href="/nightjar/docs/ping-api/">Ping API</a><a href="/nightjar/docs/schedules/" aria-current="page">Schedules &amp; grace</a><a href="/nightjar/docs/alerts/">Alert channels</a><a href="/nightjar/docs/badges/">Status badges</a> <h5>Guides</h5> <a href="/nightjar/docs/crontab/">crontab &amp; shell</a><a href="/nightjar/docs/github-actions/">GitHub Actions</a><a href="/nightjar/docs/kubernetes/">Kubernetes CronJob</a><a href="/nightjar/docs/pg-cron/">Supabase pg_cron</a><a href="/nightjar/docs/systemd/">systemd timers</a><a href="/nightjar/docs/languages/">Node, Python, PHP, Go</a> </nav> <article class="docs-body prose" style="max-width:760px"> <span class="eyebrow">Concepts</span> <h1 class="display" style="font-size:clamp(36px,4.4vw,52px);margin-top:16px">Schedules &amp; grace periods</h1> <h2 id="check-states">Check states</h2>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>State</th><th>Meaning</th></tr></thead><tbody><tr><td><strong>Waiting</strong></td><td>Created, and no ping received yet. Nightjar won’t alert until the first ping arrives.</td></tr><tr><td><strong>Up</strong></td><td>The last signal was a success and the next ping isn’t overdue.</td></tr><tr><td><strong>Down</strong></td><td>A ping is overdue past its grace period, or the job reported a failure.</td></tr><tr><td><strong>Paused</strong></td><td>Monitoring is off. Pings are recorded but don’t trigger alerts.</td></tr></tbody></table>
+<h2 id="period-schedules">Period schedules</h2>
+<p>The simplest option: <em>“this job runs every N minutes/hours/days.”</em> After each ping, the next one is expected <strong>one period later</strong>. Use this when the exact clock time doesn’t matter, for example a queue drainer started by a process manager.</p>
+<h2 id="cron-schedules">Cron schedules</h2>
+<p>Use the same expression as your crontab: five fields, <code>minute hour day-of-month month day-of-week</code>.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Expression</th><th>Runs</th></tr></thead><tbody><tr><td><code>*/15 * * * *</code></td><td>every 15 minutes</td></tr><tr><td><code>0 2 * * *</code></td><td>daily at 02:00</td></tr><tr><td><code>30 6 * * 1-5</code></td><td>weekdays at 06:30</td></tr><tr><td><code>0 0 1 * *</code></td><td>at midnight on the 1st of each month</td></tr></tbody></table>
+<p>After each ping, the next one is expected at the <strong>next time the expression matches</strong>, evaluated in the check’s <strong>time zone</strong>. Pick the same zone the scheduler uses. Most servers run cron in UTC, while GitHub Actions schedules are always UTC.</p>
+<h2 id="grace-periods">Grace periods</h2>
+<p>The grace period is how late a ping may arrive before it counts as missed. A backup that usually takes 6 minutes but sometimes takes 25 needs a grace period of at least 30 minutes if you ping on completion.</p>
+<p>If you ping <code>/start</code> at the beginning and success at the end, you can keep the grace period short and use a <strong>maximum duration</strong> to catch runs that drag.</p>
+<h2 id="when-alerts-fire">When alerts fire</h2>
+<p>Nightjar evaluates every check once a minute. A check goes down, and alerts are sent, when:</p>
+<ol>
+<li>it is <strong>up</strong>, and the expected time plus grace has passed with no ping, or</li>
+<li>it receives a <code>/fail</code> or non-zero exit-code ping.</li>
+</ol>
+<p>You get one alert when a check goes down and one when it recovers, not one per minute.</p> <hr class="rule" style="margin:48px 0 20px"> <p class="muted" style="font-size:14px">Stuck? <a href="/nightjar/contact/">Ask us</a>, or <a href="/nightjar/app/signup">create a free account</a> and try it on a real job.</p> </article> </div> </main> <footer class="footer"> <div class="wrap footer-grid"> <div class="footer-brand"> <span class="logo"> <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12.00 5.00L12.00 1.40 M16.00 5.07L17.30 2.82 M19.00 12.00L22.60 12.00 M18.93 16.00L21.18 17.30 M16.00 18.93L17.30 21.18 M12.00 19.00L12.00 22.60 M8.00 18.93L6.70 21.18 M5.07 16.00L2.82 17.30 M5.00 12.00L1.40 12.00 M5.07 8.00L2.82 6.70 M8.00 5.07L6.70 2.82" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><circle cx="19.97" cy="7.40" r="1.9" fill="#F2A93B"/></svg> <span class="logo-word">nightjar</span> </span> <p>Heartbeat monitoring for the jobs that run while you sleep.</p> </div> <div> <h4>Product</h4> <a href="/nightjar/features/">Features</a> <a href="/nightjar/pricing/">Pricing</a> <a href="/nightjar/app/signup">Create account</a> <a href="/nightjar/app/login">Sign in</a> </div> <div> <h4>Guides</h4> <a href="/nightjar/docs/">Quick start</a> <a href="/nightjar/docs/crontab/">crontab</a> <a href="/nightjar/docs/github-actions/">GitHub Actions</a> <a href="/nightjar/docs/kubernetes/">Kubernetes</a> <a href="/nightjar/docs/pg-cron/">Supabase pg_cron</a> </div> <div> <h4>Company</h4> <a href="/nightjar/faq/">FAQ</a> <a href="/nightjar/contact/">Contact</a> <a href="/nightjar/privacy/">Privacy</a> <a href="/nightjar/terms/">Terms</a> </div> </div> <div class="wrap footer-base"> <span>&copy; 2026 Nightjar</span> <span class="mono">ping · wait · alert</span> </div> </footer> </body></html>
